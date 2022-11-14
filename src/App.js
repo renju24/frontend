@@ -1,6 +1,5 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
-import Card from './components/Card/Card';
 import GameDesk from './components/GameDesk/GameDesk';
 import Header from './components/Header/Header';
 import Registration from './components/Registration/Registration';
@@ -9,19 +8,18 @@ import Login from './components/Card/Login';
 
 function App () {
   const [token, setToken] = useState();
-  // if(!token) {
-  //   return <Login setToken={setToken} />
-  // }
+   if(token) {
+     return <GameDesk/>
+  }
   return (
     <BrowserRouter>
       <div className="app-wrapper">
-        <Header />
-        <body>
+          <body>
           <Routes>
             <Route index element={<Login setToken={setToken}/>} />
-            <Route path='/card' element={<Card />} />
-            <Route path='/registration' element={<Registration />} />
-            <Route path='/gamedesk' element={<GameDesk />} />
+            <Route path='/login' element={<Login />} />
+            <Route path='/registration' element={<Registration setToken={setToken} />} />
+            <Route path='/gamedesk' element={<GameDesk />} /> //потом убрать, чтобы можно было входит только после входа
           </Routes>
         </body>
       </div>
