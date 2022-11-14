@@ -4,6 +4,7 @@ import classes from './GameDesk.module.css';
 import blackcircle from './pictures/blackcircle.png';
 import whitecircle from './pictures/whitecircle.png';
 import desk from './pictures/desk.png';
+import Header from "../Header/Header";
 
 const PlayerOne = (props) =>{
 
@@ -16,18 +17,19 @@ const PlayerTwo = (props) =>{
 
 const GameDesk = () => {
     return (
+        <><Header />
         <div className={classes.box}>
             <div className={classes.players}>
                 <div className={classes.player1}><central>
                     <img src={blackcircle} />
                     <central><div className={classes.textT1}>
-                        <PlayerOne ></PlayerOne>
+                        <PlayerOne></PlayerOne>
                     </div></central>
                     <a className={classes.textT1}>
                         (Вы)
                     </a>
 
-                </central></div >
+                </central></div>
                 <div className={classes.VS}>
                     VS
                 </div>
@@ -47,7 +49,7 @@ const GameDesk = () => {
             <div className={classes.desk}>
                 <img src={desk} />
             </div>
-        </div>
+        </div></>
     )
 }
 
