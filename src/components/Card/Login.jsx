@@ -5,10 +5,14 @@ import yandex from './pictures/Yandex.png';
 import vk from './pictures/VK.png';
 import PropTypes from 'prop-types';
 import { NavLink } from "react-router-dom";
+import Header from "../Header/Header";
 
+
+//вначале нужно провериить сервер на пинг, потом пробовать отправлять запрос
+//и ловить ошибки ??
 
 async function loginUser(credentials) {
-    return fetch('http://localhost:8080/login', {  //адрес поменять
+    return fetch('http://localhost:8080/login', {  //адрес поменять https://renju24.com/api/v1/sign_in
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -16,8 +20,8 @@ async function loginUser(credentials) {
         body: JSON.stringify(credentials)
     })
         .then(data => data.json())
+        .catch(error => alert(error.massage));
         
-    //наверно сюда надо будет добавить переброс в ЛК(или на доску, потому что она сделана)0)
 }
 
 const Login = ({ setToken }) => {
@@ -36,8 +40,9 @@ const Login = ({ setToken }) => {
     }
 
     return (
+        <><Header />
         <div className={classes.card}>
-            <div className={classes.textH1} >
+            <div className={classes.textH1}>
                 <center>Welcome to Renju24!</center>
             </div>
             <div className={classes.textH2}>
@@ -45,7 +50,7 @@ const Login = ({ setToken }) => {
             </div>
             <center>
                 <div className={classes.box}>
-                    <form  onSubmit={handleSubmit} >
+                    <form onSubmit={handleSubmit}>
                         <div className={classes.textT1}>
                             <center>Войти</center>
                         </div>
@@ -71,14 +76,14 @@ const Login = ({ setToken }) => {
                             </center>
                         </div>
                     </form>
-                    <div >
+                    <div>
                         <a href="/api/v1/oauth2/web/google">
                             <img src={google} />
                         </a>
                         <a href="/api/v1/oauth2/web/yandex">
                             <img src={yandex} />
                         </a>
-                        <a href="/api/v1/oauth2/web/vk" >
+                        <a href="/api/v1/oauth2/web/vk">
                             <img src={vk} />
                         </a>
                     </div>
@@ -93,9 +98,9 @@ const Login = ({ setToken }) => {
                             <center>Играть без регистрации (отладка)</center>
                         </NavLink>
                     </a>
-                </div >
-            </center >
-        </div>
+                </div>
+            </center>
+        </div></>
 
 
 
