@@ -1,38 +1,74 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import classes from "./Registration.module.css";
 import google from './pictures/google.jpg';
 import yandex from './pictures/Yandex.png';
 import vk from './pictures/VK.png';
+import PropTypes from 'prop-types';
+import Header from "../Header/Header";
 
+async function loginUser(credentials) {
+    return fetch('http://localhost:8080/login', {  //адрес поменять https://renju24.com/api/v1/sign_up
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(credentials)
+    })
+        .then(data => data.json())
+        .catch(error => alert(error.massage));
+    }
 
-const Registration = () => {
+const Registration = ({ setToken }) => {
+    
+    const [username, setUsername] = useState();
+    const [email, setEmail] = useState();
+    const [password, setPassword] = useState();
+    const [rpassword, setRpassword] = useState();
+
+    const handleSubmit = async e => {
+        e.preventDefault();
+        const token = await loginUser({  
+            "username": username,
+            "email": email,
+            "password": password,
+            "repeated_password": rpassword,
+        });
+        setToken(token);
+        console.log('Login complete');
+    }
+   
     return (
+        <><Header />
         <div className={classes.page}>
             <center>
-                <div className={classes.textH1} >
+                <div className={classes.textH1}>
                     <center>Welcome to Renju24!</center>
                 </div>
                 <div className={classes.textH2}>
                     <center>Добро пожаловать в Рендзю онлайн!</center>
                 </div>
 
-                <form className={classes.box}>
+                <form className={classes.box} onSubmit={handleSubmit}>
                     <div className={classes.left}>
                         <div className={classes.textT1}>
                             <center>Зарегистрируйтесь, чтобы начать</center>
                         </div>
                         <label><div><center>
-                            <input type="text" required name="login" placeholder=" login" className={classes.conteiner} />
+                            <input type="text" placeholder=" login" className={classes.conteiner}
+                                onChange={e => setUsername(e.target.value)} />
                         </center></div></label>
                         <label><div><center>
-                            <input type="email" required name="email" placeholder=" email" className={classes.conteiner} />
+                            <input type="email" placeholder=" email" className={classes.conteiner}
+                                onChange={e => setEmail(e.target.value)} />
                         </center></div></label>
                         <label><div><center>
-                            <input type="password" required name="password" placeholder=" password" className={classes.conteiner} />
+                            <input type="password" placeholder=" password" className={classes.conteiner}
+                                onChange={e => setPassword(e.target.value)} />
                         </center></div></label>
                         <label><div><center>
-                            <input type="password" required name="repeatpassword" placeholder=" repeat password" className={classes.conteiner} />
+                            <input type="password" placeholder=" repeat password" className={classes.conteiner}
+                                onChange={e => setRpassword(e.target.value)} />
                         </center></div></label>
                         <div><center>
                             <button type="submit" className={classes.button}>Зарегистрироваться</button>
@@ -58,7 +94,7 @@ const Registration = () => {
                         </div>
                         <div>
                             <a className={classes.textT1}>
-                                <NavLink to='/card'>
+                                <NavLink to='/Login'>
                                     <center>Войти</center>
                                 </NavLink>
                             </a>
@@ -66,7 +102,7 @@ const Registration = () => {
                     </div>
                 </form>
             </center>
-        </div>
+        </div></>
     )
 }
 
