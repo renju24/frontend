@@ -1,18 +1,24 @@
 import React from "react";
 import classes from './GameDesk.module.css';
-
+import { Centrifuge } from 'centrifuge';
 import blackcircle from './pictures/blackcircle.png';
 import whitecircle from './pictures/whitecircle.png';
 import desk from './pictures/desk.png';
 import Header from "../Header/Header";
+import Board from "./Board";
 
-const PlayerOne = (props) =>{
 
-}
 
-const PlayerTwo = (props) =>{
+
+
+
+// const PlayerOne = (props) =>{
+
+// }
+
+// const PlayerTwo = (props) =>{
     
-}
+// }
 
 
 const GameDesk = () => {
@@ -23,7 +29,7 @@ const GameDesk = () => {
                 <div className={classes.player1}><central>
                     <img src={blackcircle} />
                     <central><div className={classes.textT1}>
-                        <PlayerOne></PlayerOne>
+                        {/* <PlayerOne></PlayerOne> */}
                     </div></central>
                     <a className={classes.textT1}>
                         (Вы)
@@ -44,10 +50,15 @@ const GameDesk = () => {
                         Чей ход
                     </central>
                 </div>
+                <div >
+                    <button className={classes.confirm}>
+                        Подтвердить ход
+                    </button>
+                </div>
 
             </div>
             <div className={classes.desk}>
-                <img src={desk} />
+                <Board />
             </div>
         </div></>
     )
