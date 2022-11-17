@@ -5,11 +5,13 @@ import Header from './components/Header/Header';
 import Registration from './components/Registration/Registration';
 import React, { useState } from "react";
 import Login from './components/Card/Login';
+import LK from './components/LK/LK';
+import { Centrifuge } from 'centrifuge';
 
 function App () {
   const [token, setToken] = useState();
    if(token) {
-     return <GameDesk/>
+     return <LK/>
   }
   return (
     <BrowserRouter>
@@ -20,6 +22,7 @@ function App () {
             <Route path='/login' element={<Login />} />
             <Route path='/registration' element={<Registration setToken={setToken} />} />
             <Route path='/gamedesk' element={<GameDesk />} /> //потом убрать, чтобы можно было входит только после входа
+            <Route path='/LK' element={<LK />} />
           </Routes>
         </body>
       </div>
