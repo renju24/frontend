@@ -16,21 +16,33 @@ const LK = () => {
     return (
         <>
             <Header />
-            <center>
-                <div className={classes.textH1}>
-                    Прототип личного кабинета
+
+            <div className={classes.conteiner}>
+                <div className={classes.history}>
+                    История игр
                 </div>
-                <div>
-                    Для приглашения игрока введите ник:
+                <div className={classes.top}>
+                    Рейтинг
                 </div>
-                <div><textarea ref={nik} className={classes.conteiner}>
-                </textarea>
+                <div className={classes.user}>
+                    Карточка
+                    <center>
+                        <div>
+                            Для приглашения игрока введите ник:
+                        </div>
+                        <div><textarea ref={nik} className={classes.conteiner}>
+                        </textarea>
+                        </div>
+                        <div>
+                            <button onClick={NewGame} className={classes.button}>
+                                Пригласить
+                            </button></div>
+                    </center>
                 </div>
-                <div>
-                    <button onClick={NewGame} className={classes.button}>
-                        Пригласить
-                    </button></div>
-            </center>
+                <div className={classes.notice}>
+                    Уведомления
+                </div>
+            </div>
         </>
     )
 }

@@ -1,11 +1,88 @@
-.card {
+.conteiner {
+  place-items: center;
+  column-gap: 20px;
+  row-gap: 20px;
+  justify-items: center;
+  align-items: center;
+  justify-content: center;
   display: grid;
-  grid-template-rows: 1fr, 1fr, auto;
-  
-  grid-template-areas: "A" "B" "C";
+  grid-template-rows: 50% 50%;
+  grid-template-columns: 27% 27% 27%;
+  grid-template-areas: "history user notice" "top user notice" ;
   /*background: #F8F8F8;*/
+  margin-top: 20px;
 }
 
+.history{
+  grid-area: history;
+  width: 100%;
+  height: 100%;
+  background: rgba(61, 148, 47, 0.1);
+  border-radius: 20px;
+  margin: 3%; 
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 29px;
+  border: 0px;
+  color: rgba(0, 0, 0, 0.57);
+}
+
+.top{
+  grid-area: top;
+  
+  width: 100%;
+  height: 100%;
+  background: rgba(61, 148, 47, 0.1);
+  border-radius: 20px;
+  margin: 3%; 
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 29px;
+  border: 0px;
+  color: rgba(0, 0, 0, 0.57);
+}
+
+.user{
+  grid-area: user;
+  
+  width: 100%;
+  height: 100%;
+  background: rgba(61, 148, 47, 0.1);
+  border-radius: 20px;
+  margin: 3%; 
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 29px;
+  border: 0px;
+  color: rgba(0, 0, 0, 0.57);
+}
+
+.notice{
+  grid-area: notice;
+
+  width: 100%;
+  height: 100%;
+  background: rgba(61, 148, 47, 0.1);
+  border-radius: 20px;
+  margin: 3%; 
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 29px;
+  border: 0px;
+  color: rgba(0, 0, 0, 0.57);
+}
+
+
+
+/* 
 .textH1 {
   grid-area: A;
   font-family: 'Montserrat';
@@ -72,7 +149,7 @@
   height: 45px;
   background: rgba(61, 148, 47, 0.1);
   border-radius: 20px;
-  /* margin: 2%; */
+  margin: 2%;
   font-family: 'Montserrat';
   font-style: normal;
   font-weight: 400;
@@ -85,7 +162,7 @@
 .button {
   width: 30%;
   height: 45px;
-  /* margin: 2%; */
+  margin: 2%;
   background: rgba(207, 165, 4, 0.21);
   border-radius: 20px;
 
@@ -96,4 +173,4 @@
   line-height: 29px;
   color: #111217;
   border: 0px
-}
+} */
