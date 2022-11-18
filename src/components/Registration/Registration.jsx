@@ -1,23 +1,40 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { json, NavLink } from "react-router-dom";
 import classes from "./Registration.module.css";
 import google from './pictures/google.jpg';
 import yandex from './pictures/Yandex.png';
 import vk from './pictures/VK.png';
 import PropTypes from 'prop-types';
 import Header from "../Header/Header";
+import { response } from "express";
 
 async function loginUser(credentials) {
-    return fetch('http://localhost:8080/login', {  //адрес поменять https://renju24.com/api/v1/sign_up
+    return fetch('https://renju24.com/api/v1/sign_up', {  
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(credentials)
     })
-        .then(data => data.json())
-        .catch(error => alert(error.massage));
-    }
+        .then((response) => {
+            if(response.ok) {
+                return response.json;
+            }
+            return Promise.reject(response);
+        })   
+        .then((jsonResponse) => {
+            alert(jsonResponse.token);
+            <NavLink to='/'/>
+        })
+        .catch((response) =>{
+            response.json().then((jsonResponse) => {
+                alert(
+                    jsonResponse.error.code,
+                    jsonResponse.error.message
+                );
+            })
+        })
+}
 
 const Registration = ({ setToken }) => {
     
@@ -104,6 +121,10 @@ const Registration = ({ setToken }) => {
             </center>
         </div></>
     )
+}
+
+Registration.propTypes = {
+    setToken: PropTypes.func.isRequired
 }
 
 export default Registration;
