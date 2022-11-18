@@ -12,15 +12,35 @@ import Header from "../Header/Header";
 //и ловить ошибки ??
 
 async function loginUser(credentials) {
-    return fetch('http://localhost:8080/login', {  //адрес поменять https://renju24.com/api/v1/sign_in
+    return fetch('https://renju24.com/api/v1/sign_in', {  //адрес поменять https://renju24.com/api/v1/sign_in
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(credentials)
     })
-        .then(data => data.json())
-        .catch(error => alert(error.massage));
+        .then((response) => {
+            if(response.ok) {
+                return response.json;
+            }
+            return Promise.reject(response);
+        })   
+        .then((jsonResponse) => {
+            alert(jsonResponse.token);
+            <NavLink to='/LK'/> 
+
+        })
+        .catch((response) =>{
+            response.json().then((jsonResponse) => {
+                alert(
+                    jsonResponse.error.code,
+                    jsonResponse.error.message
+                );
+            })
+        })    
+    
+    // .then(data => data.json())
+    //     .catch(error => alert(error.massage));
         
 }
 
