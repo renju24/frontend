@@ -1,9 +1,6 @@
 import React from "react";
 import classes from './Board.module.css';
 
-
-
-
 // var tbl = document.getElementsByTagName("table")[0];
 // var cls = tbl.getElementsByTagName("td");
 

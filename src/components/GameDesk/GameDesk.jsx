@@ -1,16 +1,9 @@
 import React from "react";
 import classes from './GameDesk.module.css';
-import { Centrifuge } from 'centrifuge';
 import blackcircle from './pictures/blackcircle.png';
 import whitecircle from './pictures/whitecircle.png';
-import desk from './pictures/desk.png';
 import Header from "../Header/Header";
 import Board from "./Board";
-
-
-
-
-
 
 // const PlayerOne = (props) =>{
 
