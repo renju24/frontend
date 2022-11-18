@@ -1,6 +1,7 @@
 import React from 'react';
 import classes from './LK.module.css';
 import Header from "../Header/Header";
+import { NavLink } from "react-router-dom";
 
 const LK = () => {
 
@@ -10,7 +11,7 @@ const LK = () => {
         let username = nik.current.value;
         alert(username);
         //здесб наверно куда-то его отправить и обработать ответ
-        window.location.assign('http://localhost:3000/gamedesk/'); //поменять адрес 
+        <NavLink to='/gamedesk'/>
     }
 
     return (
