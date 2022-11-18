@@ -6,7 +6,7 @@ import yandex from './pictures/Yandex.png';
 import vk from './pictures/VK.png';
 import PropTypes from 'prop-types';
 import Header from "../Header/Header";
-import { response } from "express";
+
 
 async function loginUser(credentials) {
     return fetch('https://renju24.com/api/v1/sign_up', {  
@@ -23,8 +23,8 @@ async function loginUser(credentials) {
             return Promise.reject(response);
         })   
         .then((jsonResponse) => {
-            alert(jsonResponse.token);
-            <NavLink to='/'/>
+            alert(jsonResponse.token); //отладка
+            window.location.assign('http://localhost:3000/LK/'); //поменять адрес 
         })
         .catch((response) =>{
             response.json().then((jsonResponse) => {
