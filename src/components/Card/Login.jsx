@@ -4,7 +4,7 @@ import google from './pictures/google.jpg';
 import yandex from './pictures/Yandex.png';
 import vk from './pictures/VK.png';
 import PropTypes from 'prop-types';
-import { NavLink } from "react-router-dom";
+import { NavLink, Navigate } from "react-router-dom";
 import Header from "../Header/Header";
 
 
@@ -27,7 +27,7 @@ async function loginUser(credentials) {
         })   
         .then((jsonResponse) => {
             alert(jsonResponse.token);
-            <NavLink to='/LK'/> 
+            window.location.assign('http://localhost:3000/LK'); //поменять адрес 
 
         })
         .catch((response) =>{
