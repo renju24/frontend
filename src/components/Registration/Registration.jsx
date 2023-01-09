@@ -4,7 +4,6 @@ import classes from "./Registration.module.css";
 import google from './pictures/google.jpg';
 import yandex from './pictures/Yandex.png';
 import vk from './pictures/VK.png';
-import PropTypes from 'prop-types';
 import Header from "../Header/Header";
 
 
@@ -18,13 +17,15 @@ async function loginUser(credentials) {
     })
         .then((response) => {
             if(response.ok) {
+                
                 return response.json;
             }
             return Promise.reject(response);
         })   
         .then((jsonResponse) => {
-            alert(jsonResponse.token); //отладка
-            window.location.assign('http://localhost:3000/LK/'); //поменять адрес 
+            console.log('Login true'); //отладка
+//***************************************проверить адрес****************************************** */
+            window.location.assign('https://renju24.com/LK/'); //поменять адрес 
         })
         .catch((response) =>{
             response.json().then((jsonResponse) => {
@@ -36,7 +37,7 @@ async function loginUser(credentials) {
         })
 }
 
-const Registration = ({ setToken }) => {
+const Registration = () => {
     
     const [username, setUsername] = useState();
     const [email, setEmail] = useState();
@@ -46,13 +47,11 @@ const Registration = ({ setToken }) => {
     const handleSubmit = async e => {
         e.preventDefault();
         const token = await loginUser({  
-            "username": username,
-            "email": email,
-            "password": password,
-            "repeated_password": rpassword,
+            username: username,
+            email: email,
+            password: password,
+            repeated_password: rpassword,
         });
-        setToken(token);
-        console.log('Login complete');
     }
    
     return (
@@ -96,13 +95,13 @@ const Registration = ({ setToken }) => {
                             <center>Зарегистрироваться через</center>
                         </div>
                         <div className={classes.img}>
-                            <a href="/api/v1/oauth2/web/google">
+                            <a href="https://renju24.com/api/v1/oauth2/web/google">
                                 <img src={google} />
                             </a>
-                            <a href="/api/v1/oauth2/web/yandex">
+                            <a href="https://renju24.com/api/v1/oauth2/web/yandex">
                                 <img src={yandex} />
                             </a>
-                            <a href="/api/v1/oauth2/web/vk">
+                            <a href="https://renju24.com/api/v1/oauth2/web/vk">
                                 <img src={vk} />
                             </a>
                         </div>
@@ -123,8 +122,5 @@ const Registration = ({ setToken }) => {
     )
 }
 
-Registration.propTypes = {
-    setToken: PropTypes.func.isRequired
-}
 
 export default Registration;

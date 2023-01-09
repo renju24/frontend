@@ -12,7 +12,7 @@ import Header from "../Header/Header";
 //и ловить ошибки ??
 
 async function loginUser(credentials) {
-    return fetch('https://renju24.com/api/v1/sign_in', {  //адрес поменять https://renju24.com/api/v1/sign_in
+    return fetch('https://renju24.com/api/v1/sign_in', {  
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -21,14 +21,15 @@ async function loginUser(credentials) {
     })
         .then((response) => {
             if(response.ok) {
-                return response.json;
+                console.log('Login complete 1');
+                return response.json; //response.text(); ответ как текст
             }
             return Promise.reject(response);
         })   
         .then((jsonResponse) => {
-            alert(jsonResponse.token);
-            window.location.assign('http://localhost:3000/LK'); //поменять адрес 
-
+            console.log('Login complete 2'); //отладка
+/**********************************************проверит адрес******************************************* */
+            window.location.assign('https://renju24.com/LK'); //поменять адрес
         })
         .catch((response) =>{
             response.json().then((jsonResponse) => {
@@ -44,19 +45,22 @@ async function loginUser(credentials) {
         
 }
 
-const Login = ({ setToken }) => {
+const Login = () => {
 
     const [login, setLogin] = useState();
     const [pass, setPass] = useState();
+
     const handleSubmit = async e => {
         e.preventDefault();
         const token = await loginUser({  
-            "login": login,                     //вот запрос, вроде правильно
-	        "password": pass,
+            login: login,                     
+	        password: pass,
             
         });
-        setToken(token);
-        console.log('Login complete');
+        console.log('Login complete 3');
+
+        alert('Log Ok');
+        
     }
 
     return (
@@ -97,13 +101,13 @@ const Login = ({ setToken }) => {
                         </div>
                     </form>
                     <div>
-                        <a href="/api/v1/oauth2/web/google">
+                        <a href="https://renju24.com/api/v1/oauth2/web/google">
                             <img src={google} />
                         </a>
-                        <a href="/api/v1/oauth2/web/yandex">
+                        <a href="https://renju24.com/api/v1/oauth2/web/yandex">
                             <img src={yandex} />
                         </a>
-                        <a href="/api/v1/oauth2/web/vk">
+                        <a href="https://renju24.com/api/v1/oauth2/web/vk">
                             <img src={vk} />
                         </a>
                     </div>
@@ -115,7 +119,7 @@ const Login = ({ setToken }) => {
                             <center>Зарегистрироваться!</center>
                         </NavLink>
                         <NavLink to='/gamedesk'>
-                            <center>Играть без регистрации (отладка)</center>
+                            {/* <center>Играть без регистрации (отладка)</center> */}
                         </NavLink>
                     </a>
                 </div>
@@ -125,10 +129,6 @@ const Login = ({ setToken }) => {
 
 
     )
-}
-
-Login.propTypes = {
-    setToken: PropTypes.func.isRequired
 }
 
 export default Login;
