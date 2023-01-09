@@ -1,5 +1,5 @@
 import Piece from './piece';
-import whitecircle from '../pictures/whitecircle.png';
+import whitecircle from '../pictures/whitecircleonboard.png';
 
 
 export default class WhiteCircle extends Piece {
