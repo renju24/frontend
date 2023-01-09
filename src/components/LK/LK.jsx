@@ -50,13 +50,14 @@ const LK = () => {
         setId(ctx.data.id);
         setEmail(ctx.data.email);
         setRanking(ctx.data.ranking);
-        const sub = centrifuge.newSubscription('user_' + id);
 
+        const sub = centrifuge.newSubscription('user_' + ctx.data.id);
+        sub.subscribe();
         sub.on('publication', function (ctx) {
             var event = ctx.data;
             if (event.event_type == 'game_invitation') {
                 setGame_id(event.data.game_id);
-
+                console.log(game);    
                 setInviter(event.data.inviter);
 
                 setInvited_at(event.data.invited_at);
@@ -72,7 +73,7 @@ const LK = () => {
             console.log(ctx); // в ctx будут лежат данные события
         });
 
-        sub.subscribe();
+        
     });
 
     
@@ -91,19 +92,18 @@ const LK = () => {
 
     let NewGame = () => {
         let username = user2.current.value;
-
         centrifuge.rpc("call_for_game", { "username": username })
             .then(function (ctx) {
                 console.log(ctx.data.game_id);
                 setGame_id(ctx.data.game_id);
-                const sub2 = centrifuge.newSubscription(game_id);
+                const sub2 = centrifuge.newSubscription('game_' + ctx.data.game_id);
                 sub2.on('publication', function (ctx) {
                     var event = ctx.data;
                     if (event.event_type == 'game_started') {
                         
                         setInviter(event.data.inviter);
                         setInvited_at(event.data.invited_at);
-                        if (game_id) {
+                        if (ctx.data.game_id) {
 /**********************************************проверит адрес******************************************* */
                             window.location.assign('/gamedesk/'); //поменять адрес                     
                         }
