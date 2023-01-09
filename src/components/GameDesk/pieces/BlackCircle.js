@@ -1,5 +1,5 @@
 import Piece from './piece';
-import blackcircle from '../pictures/blackcircle.png';
+import blackcircle from '../pictures/blackcircleonboard.png';
 
 export default class BlackCircle extends Piece {
   constructor(player){
