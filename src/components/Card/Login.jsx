@@ -12,7 +12,7 @@ import Header from "../Header/Header";
 //и ловить ошибки ??
 
 async function loginUser(credentials) {
-    return fetch('/api/v1/sign_in', {  
+    return fetch('https://renju24.com/api/v1/sign_in', {  
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -58,10 +58,21 @@ const Login = () => {
             
         });
         console.log('Login complete 3');
-
-        alert('Log Ok');
         
     }
+
+const Oauth1 = () =>{
+    window.location.assign('/LK');
+}
+
+const Oauth2 = () =>{
+    window.location.assign('/LK');
+}
+
+const Oauth3 = () =>{
+    window.location.assign('/LK');
+}
+
 
     return (
         <><Header />
@@ -101,13 +112,13 @@ const Login = () => {
                         </div>
                     </form>
                     <div>
-                        <a href="/api/v1/oauth2/web/google">
+                        <a onClick={Oauth1} href="https://renju24.com/api/v1/oauth2/web/google">
                             <img src={google} />
                         </a>
-                        <a href="/api/v1/oauth2/web/yandex">
+                        <a onClick={Oauth2} href="https://renju24.com/api/v1/oauth2/web/yandex">
                             <img src={yandex} />
                         </a>
-                        <a href="/api/v1/oauth2/web/vk">
+                        <a onClick={Oauth3} href="https://renju24.com/api/v1/oauth2/web/vk">
                             <img src={vk} />
                         </a>
                     </div>
