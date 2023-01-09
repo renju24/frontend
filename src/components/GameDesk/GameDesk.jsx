@@ -72,12 +72,12 @@ const GameDesk = () => {
             if (event.event_type == 'game_ended_with_winner') {
                 alert('Вы победили!');
 /**********************************************проверит адрес******************************************* */
-                window.location.assign('https://renju24.com/LK/'); //поменять адрес
+                window.location.assign('/LK/'); //поменять адрес
             }
             if (event.event_type == 'game_ended_in_draw') {
                 alert('Вы проиграли');
 /**********************************************проверит адрес******************************************* */
-                window.location.assign('https://renju24.com/LK/'); //поменять адрес
+                window.location.assign('/LK/'); //поменять адрес
             }
         });
         sub.on('subscribed', function (ctx) {
