@@ -105,7 +105,7 @@ const LK = () => {
                         setInvited_at(event.data.invited_at);
                         if (game_id) {
 /**********************************************проверит адрес******************************************* */
-                            window.location.assign('https://renju24.com/gamedesk/'); //поменять адрес                     
+                            window.location.assign('/gamedesk/'); //поменять адрес                     
                         }
                     }
                 });
@@ -125,7 +125,7 @@ const LK = () => {
         console.log(game_id);
         centrifuge.rpc("accept_game_invitation", { "game_id": game_id })
             .then(function (ctx) {
-                window.location.assign('http://localhost:3000/gamedesk/');
+                window.location.assign('/gamedesk/');
             }, function (err) {
                 console.log('rpc error', err);
             });
