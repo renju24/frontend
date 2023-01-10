@@ -22,7 +22,7 @@ async function loginUser(credentials) {
             }
             return Promise.reject(response);
         })   
-        .then((jsonResponse) => {ка
+        .then((jsonResponse) => {
 //***************************************проверить адрес****************************************** */
             window.location.assign('/LK/'); //поменять адрес 
         })
