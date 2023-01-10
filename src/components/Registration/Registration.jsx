@@ -22,8 +22,7 @@ async function loginUser(credentials) {
             }
             return Promise.reject(response);
         })   
-        .then((jsonResponse) => {
-            console.log('Login true'); //отладка
+        .then((jsonResponse) => {ка
 //***************************************проверить адрес****************************************** */
             window.location.assign('/LK/'); //поменять адрес 
         })
@@ -37,7 +36,7 @@ async function loginUser(credentials) {
         })
 }
 
-const Registration = () => {
+const Registration = (props) => {
     
     const [username, setUsername] = useState();
     const [email, setEmail] = useState();

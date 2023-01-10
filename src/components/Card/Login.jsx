@@ -3,16 +3,12 @@ import classes from './Login.module.css';
 import google from './pictures/google.jpg';
 import yandex from './pictures/Yandex.png';
 import vk from './pictures/VK.png';
-import PropTypes from 'prop-types';
-import { NavLink, Navigate } from "react-router-dom";
+import { NavLink} from "react-router-dom";
 import Header from "../Header/Header";
 
 
-//вначале нужно провериить сервер на пинг, потом пробовать отправлять запрос
-//и ловить ошибки ??
-
 async function loginUser(credentials) {
-    return fetch('https://renju24.com/api/v1/sign_in', {  
+    return fetch('/api/v1/sign_in', {  
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -21,13 +17,11 @@ async function loginUser(credentials) {
     })
         .then((response) => {
             if(response.ok) {
-                console.log('Login complete 1');
-                return response.json; //response.text(); ответ как текст
+                return response.json; 
             }
             return Promise.reject(response);
         })   
         .then((jsonResponse) => {
-            console.log('Login complete 2'); //отладка
 /**********************************************проверит адрес******************************************* */
             window.location.assign('/LK'); //поменять адрес
         })
@@ -39,13 +33,9 @@ async function loginUser(credentials) {
                 );
             })
         })    
-    
-    // .then(data => data.json())
-    //     .catch(error => alert(error.massage));
-        
 }
-
-const Login = () => {
+     
+const Login = (props) => {
 
     const [login, setLogin] = useState();
     const [pass, setPass] = useState();
@@ -56,23 +46,34 @@ const Login = () => {
             login: login,                     
 	        password: pass,
             
-        });
-        console.log('Login complete 3');
-        
+        });    
     }
 
-const Oauth1 = () =>{
-    window.location.assign('/LK');
-}
 
-const Oauth2 = () =>{
-    window.location.assign('/LK');
-}
 
-const Oauth3 = () =>{
-    window.location.assign('/LK');
-}
+    const Go = () => {
+        return (
+            <a href="/api/v1/oauth2/web/google">
+                <img src={google} />
+            </a>
+        )
+    }
 
+    const Ya = () => {
+        return (
+            <a href="/api/v1/oauth2/web/yandex">
+                <img src={yandex} />
+            </a>
+        )
+    }
+
+    const Vk = () => {
+        return (
+            <a href="/api/v1/oauth2/web/vk">
+                <img src={vk} />
+            </a>
+        )
+    }
 
     return (
         <><Header />
@@ -112,15 +113,9 @@ const Oauth3 = () =>{
                         </div>
                     </form>
                     <div>
-                        <a onClick={Oauth1} href="https://renju24.com/api/v1/oauth2/web/google">
-                            <img src={google} />
-                        </a>
-                        <a onClick={Oauth2} href="https://renju24.com/api/v1/oauth2/web/yandex">
-                            <img src={yandex} />
-                        </a>
-                        <a onClick={Oauth3} href="https://renju24.com/api/v1/oauth2/web/vk">
-                            <img src={vk} />
-                        </a>
+                        <Go />
+                        <Ya />
+                        <Vk />
                     </div>
                     <div className={classes.textT1}>
                         <center>Еще не зарегистрированы?</center>
@@ -129,14 +124,13 @@ const Oauth3 = () =>{
                         <NavLink to='/registration'>
                             <center>Зарегистрироваться!</center>
                         </NavLink>
-                        <NavLink to='/gamedesk'>
-                            {/* <center>Играть без регистрации (отладка)</center> */}
-                        </NavLink>
                     </a>
                 </div>
             </center>
-        </div></>
+        </div>
 
+        </>
+    
 
 
     )

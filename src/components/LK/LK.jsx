@@ -2,17 +2,8 @@ import React, { useState } from 'react';
 import classes from './LK.module.css';
 import Header from "../Header/Header";
 import face from './pictures/face.png';
-import { NavLink, Route } from 'react-router-dom';
-import GameDesk from '../GameDesk/GameDesk';
 
-import centrifuge from '../Centr';
-
-const LK = () => {
-
-    const [user, setUser] = useState();
-    const [id, setId] = useState();
-    const [email, setEmail] = useState();
-    const [ranking, setRanking] = useState();
+const LK = (props) => {
 
     const [topUser1, setTopUser1] = useState();
     const [topUser1R, setTopUser1R] = useState();
@@ -34,109 +25,79 @@ const LK = () => {
     const [buh3, setBuh3] = useState();
     const [wuh3, setWuh3] = useState();
     const [winuh3, setWinuh3] = useState();
-    
+
     const [game, setGame] = useState();
     const [game_id, setGame_id] = useState();
     const [inviter, setInviter] = useState();
     const [invited_at, setInvited_at] = useState();
 
     let user2 = React.createRef();
+
     
+        props.sub.subscribe();
 
-    centrifuge.on('connected', function (ctx) {
-        console.log('connected true');
-        console.log(ctx);
-        setUser(ctx.data.username);
-        setId(ctx.data.id);
-        setEmail(ctx.data.email);
-        setRanking(ctx.data.ranking);
-
-        const sub = centrifuge.newSubscription('user_' + ctx.data.id);
-        sub.subscribe();
-        sub.on('publication', function (ctx) {
+        props.sub.on('error', function (ctx) {
+            alert(ctx.message); // в ctx будут лежат данные события
+        });        
+        props.sub.on('publication', function (ctx) {
             var event = ctx.data;
             if (event.event_type == 'game_invitation') {
                 setGame_id(event.data.game_id);
-                console.log(game);    
                 setInviter(event.data.inviter);
-
                 setInvited_at(event.data.invited_at);
-
+                //props.ub.unSubscribe();
+                //sub.removeAllListeners();
             }
-
-            console.log(ctx); // в ctx будут лежат данные события
-        });
-        sub.on('subscribed', function (ctx) {
-            console.log(ctx); // в ctx будут лежат данные события
-        });
-        sub.on('error', function (ctx) {
-            console.log(ctx); // в ctx будут лежат данные события
         });
 
-        
-    });
+    //});
 
-    
-    centrifuge.on('connecting', function (ctx) {
-        console.log('connecting true');
-        setUser(ctx.data.username);
-        setId(ctx.data.id);
-        setEmail(ctx.data.email);
-        setRanking(ctx.data.ranking);
-    });
-
-    centrifuge.on('disconnected', function (ctx) {
+    props.centrifuge.on('disconnected', function (ctx) {
         alert('connected false');
     });
-    
 
     let NewGame = () => {
         let username = user2.current.value;
-        centrifuge.rpc("call_for_game", { "username": username })
+        props.centrifuge.rpc("call_for_game", { "username": username })
             .then(function (ctx) {
-                console.log(ctx.data.game_id);
-                setGame_id(ctx.data.game_id);
-                const sub2 = centrifuge.newSubscription('game_' + ctx.data.game_id);
+                
+                setGame_id(ctx.data.game_id);                
+                const sub2 = props.centrifuge.newSubscription('game_' + ctx.data.game_id);
+                sub2.subscribe();
                 sub2.on('publication', function (ctx) {
                     var event = ctx.data;
                     if (event.event_type == 'game_started') {
-                        
-                        setInviter(event.data.inviter);
-                        setInvited_at(event.data.invited_at);
-                        if (ctx.data.game_id) {
-/**********************************************проверит адрес******************************************* */
-                            window.location.assign('/gamedesk/'); //поменять адрес                     
-                        }
+                        sub2.unsubscribe();
+                        //console.log('unsubscribe');
+                        /**********************************************проверит адрес*******************************************/
+                        window.location.assign('/gamedesk/'); //поменять адрес                     
                     }
-                });
-                sub2.on('publication', function (ctx) {
-                    var event = ctx.data;
                     if (event.event_type == 'decline_game_invitation') {
-                        setGame_id='';
+                        sub2.unSubscribe();
+                        setGame_id('');
+
                     }
                 });
-
             }, function (err) {
-                console.log('rpc error', err);
+                alert(err.message);
             });
     }
 
     let NewGame1 = () => {
-        console.log(game_id);
-        centrifuge.rpc("accept_game_invitation", { "game_id": game_id })
+        props.centrifuge.rpc("accept_game_invitation", { "game_id": game_id })
             .then(function (ctx) {
                 window.location.assign('/gamedesk/');
             }, function (err) {
-                console.log('rpc error', err);
+                alert(err.message);
             });
     }
     let NewGame2 = () => {
-        centrifuge.rpc("decline_game_invitation", { "game_id": game_id })
+        props.centrifuge.rpc("decline_game_invitation", { "game_id": game_id })
             .then(function (ctx) {
                 setInviter = '';
                 setInvited_at = '';
             }, function (err) {
-                console.log('rpc error', err);
+                alert(err.message);
             });
     }
 
@@ -144,9 +105,6 @@ const LK = () => {
         if (inviter) {
             return (
                 <>
-                    <div>
-                        {invited_at}
-                    </div>
                     <div>
                         Пользователь {inviter} приглашает Вас в игру!
                     </div>
@@ -156,11 +114,32 @@ const LK = () => {
                     <button onClick={NewGame2} className={classes.button}>
                         Отказаться
                     </button></>)
-            
+
         }
     }
 
-    centrifuge.rpc("game_history", { "username": user })
+    const HistoryTb = () =>{
+        if(buh1) {
+            return (
+                <><tr>
+                    <td>{buh1}</td>
+                    <td>{wuh1}</td>
+                    <td>{winuh1}</td>
+                </tr><tr>
+                        <td>{buh2}</td>
+                        <td>{wuh2}</td>
+                        <td>{winuh2}</td>
+                    </tr><tr>
+                        <td>{buh3}</td>
+                        <td>{wuh3}</td>
+                        <td>{winuh3}</td>
+                    </tr></>
+            )
+        }
+
+    }
+
+    props.centrifuge.rpc("game_history", { "username": props.user.username })
         .then(function (ctx) {
             setBuh1(ctx.data.games[0].black_username);
             setWuh1(ctx.data.games[0].white_username);
@@ -175,7 +154,7 @@ const LK = () => {
             console.log('rpc error', err);
         });
 
-    centrifuge.rpc("top_10", {})
+    props.centrifuge.rpc("top_10", {})
         .then(function (ctx) {
             setTopUser1(ctx.data.users[0].username);
             setTopUser1R(ctx.data.users[0].ranking);
@@ -204,21 +183,7 @@ const LK = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>{buh1}</td>
-                            <td>{wuh1}</td>
-                            <td>{winuh1}</td>
-                        </tr>
-                        <tr>
-                            <td>{buh2}</td>
-                            <td>{wuh2}</td>
-                            <td>{winuh2}</td>
-                        </tr>
-                        <tr>
-                            <td>{buh3}</td>
-                            <td>{wuh3}</td>
-                            <td>{winuh3}</td>
-                        </tr>
+                        <HistoryTb />
                     </tbody>
                 </table>
             </div>
@@ -263,12 +228,12 @@ const LK = () => {
                     </div>
                     <img src={face} />
                     <div>
-                        <div> id: {id} </div>
+                        <div> id: {props.user.id} </div>
                         <div> username: </div>
-                        <div> {user} </div>
+                        <div> {props.user.username} </div>
                         <div> Email: </div>
-                        <div> {email} </div>
-                        <div> Рейтинг: {ranking} </div>
+                        <div> {props.user.email} </div>
+                        <div> Рейтинг: {props.user.ranking} </div>
                     </div>
                     <div>
                         Для приглашения игрока введите ник:
@@ -283,7 +248,7 @@ const LK = () => {
                 </center>
             </div>
             <div className={classes.notice}>
-                Уведомления
+                <center> Уведомления </center>
                 <div className={classes.n}>
                     <Notice inviter={inviter} invited_at={invited_at} />
                 </div>

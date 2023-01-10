@@ -1,10 +1,9 @@
 .header {
   background: rgba(61, 148, 47, 0.47);
   border-radius: 50px;
+  margin-left: 0.5%;
+  margin-right: 0.5%;
 
-  margin-left: 1%;
-  margin-right: 1%;
-  margin-top: 0.3%;
   height: 55px;
   place-items: center;
   

@@ -6,7 +6,7 @@ export default class BlackCircle extends Piece {
     super(player, (blackcircle));
   }
 
-  isMovePossible(){
+  isMovePossible(i){
     return(false);
   }
 

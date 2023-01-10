@@ -30,7 +30,7 @@
 
 .box {
   grid-area: C;
-  width: 26%;
+  width: 350px;
   height: 90%;
   margin: 2%;
   place-items: center;

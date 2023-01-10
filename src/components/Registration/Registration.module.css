@@ -10,7 +10,7 @@
   grid-template-columns: repeat(2, 1fr);
   grid-template-areas: "l r";
   
-  width: 50%;
+  width: 800px;
   height: 70%;
   place-items: center;
   margin: 50px;
