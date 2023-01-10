@@ -11,7 +11,7 @@ function App(props) {
   
   const GoToLK = () => {
     if(!props.user.id){
-      return
+      return <Login user={props.user}/>
   }}
   
   return (
