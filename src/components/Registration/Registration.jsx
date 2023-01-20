@@ -8,7 +8,7 @@ import Header from "../Header/Header";
 
 
 async function loginUser(credentials) {
-    return fetch('/api/v1/sign_up', {  
+    return fetch('https://renju24.com/api/v1/sign_up', {  
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -17,14 +17,12 @@ async function loginUser(credentials) {
     })
         .then((response) => {
             if(response.ok) {
-                
                 return response.json;
             }
             return Promise.reject(response);
         })   
         .then((jsonResponse) => {
-//***************************************проверить адрес****************************************** */
-            window.location.assign('/LK/'); //поменять адрес 
+            window.location.assign('/LK/'); 
         })
         .catch((response) =>{
             response.json().then((jsonResponse) => {
@@ -94,13 +92,13 @@ const Registration = (props) => {
                             <center>Зарегистрироваться через</center>
                         </div>
                         <div className={classes.img}>
-                            <a href="/api/v1/oauth2/web/google">
+                            <a href="https://renju24.com/api/v1/oauth2/web/google">
                                 <img src={google} />
                             </a>
-                            <a href="/api/v1/oauth2/web/yandex">
+                            <a href="https://renju24.com/api/v1/oauth2/web/yandex">
                                 <img src={yandex} />
                             </a>
-                            <a href="/api/v1/oauth2/web/vk">
+                            <a href="https://renju24.com/api/v1/oauth2/web/vk">
                                 <img src={vk} />
                             </a>
                         </div>

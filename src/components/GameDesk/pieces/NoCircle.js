@@ -9,9 +9,10 @@ const move = (x, y) => {
       .then(function (res) {
         centrifuge.rpc("make_move", { "game_id": res.data.game.game_id, "x_coordinate": x, "y_coordinate": y })
           .then(function (res) {
-            console.log(res);
+            //console.log(res);
           }, function (err) {
             alert(err.message);
+            //err.message;
           });
       }, function (err) {
         console.log('rpc error', err);
@@ -22,19 +23,18 @@ const move = (x, y) => {
 
 
 export default class NoCircle extends Piece  {
-  constructor(player){
-    super(player, (cell));
+  constructor(){
+    super((cell));
   }
 
   isMovePossible(i){
     var x = 0;
     var  y = 0;
-    while (i > 15){
+    while (i >= 15){
         i = i - 15; 
         x = x + 1;
     }
     y = i;
-    console.log(x, y);
     move(x, y);
   }
 

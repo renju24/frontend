@@ -15,8 +15,8 @@
   
   display: grid;
 
-  grid-template-rows: 150px 50px 120px 1fr 1fr;
-  grid-template-areas: "P1" "VS" "P2" "T" "B";
+  grid-template-rows: 150px 50px 120px 1fr ;
+  grid-template-areas: "P1" "VS" "P2" "T" ;
 
   width: 310px;
   place-items: center;
@@ -190,10 +190,11 @@ ol, ul {
 .playerturnbox{
   width: 32px;
   height: 32px;
-  border: 1px solid #000;
+  border-radius: 20px;
   margin-bottom: 10px;
 }
 
 h3{
   margin-bottom: 5px;
 }
+

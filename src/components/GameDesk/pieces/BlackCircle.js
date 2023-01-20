@@ -2,8 +2,8 @@ import Piece from './piece';
 import blackcircle from '../pictures/blackcircleonboard.png';
 
 export default class BlackCircle extends Piece {
-  constructor(player){
-    super(player, (blackcircle));
+  constructor(){
+    super((blackcircle));
   }
 
   isMovePossible(i){
@@ -16,7 +16,4 @@ export default class BlackCircle extends Piece {
    * @param  {num} dest 
    * @return {[array]}      
    */
-  getSrcToDestPath(src, dest){
-    return [];
-  }
 }

@@ -3,8 +3,8 @@ import whitecircle from '../pictures/whitecircleonboard.png';
 
 
 export default class WhiteCircle extends Piece {
-  constructor(player){
-    super(player, (whitecircle));
+  constructor(){
+    super((whitecircle));
   }
 
   isMovePossible(){
@@ -17,8 +17,6 @@ export default class WhiteCircle extends Piece {
    * @param  {num} dest 
    * @return {[array]}      
    */
-  getSrcToDestPath(src, dest){
-    return [];
-  }
+
 }
 

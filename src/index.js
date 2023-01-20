@@ -3,13 +3,14 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import {centrifuge, user, sub} from './Centr';
+import {centrifuge, user} from './Centr';
+import initialiseChessBoard from './components/GameDesk/helpers/board-initialiser';
 
-
+const squares = initialiseChessBoard();
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <App centrifuge={centrifuge} user={user} sub={sub}/>
+    <App centrifuge={centrifuge} user={user} squares={squares}/>
 );
 
 
