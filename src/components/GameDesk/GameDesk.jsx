@@ -4,12 +4,10 @@ import blackcircle from './pictures/blackcircle.png';
 import whitecircle from './pictures/whitecircle.png';
 import Header from "../Header/Header";
 import { centrifuge } from '../../Centr';
-
-import initialiseChessBoard from './helpers/board-initialiser';
 import BlackCircle from './pieces/BlackCircle';
 import WhiteCircle from './pieces/WhiteCircle';
 import Board from './components/board';
-
+import { NavLink } from 'react-router-dom';
 
 function Subscribe(game){
     const sub = centrifuge.newSubscription('game_' + game);
@@ -17,12 +15,12 @@ function Subscribe(game){
     return sub;
 }
 
-
 const GameDesk = (props) => {
 
     const [player, setPlayer] = useState(1);
-    const [status, setStatus] = useState();
+    const [status, setStatus] = useState('');
     const [turn, setTurn] = useState('black');
+    const [i, setI] = useState();
 
     function Moving(x, y) {
         var i = x * 15 + y;
@@ -70,16 +68,18 @@ const GameDesk = (props) => {
             if (event.event_type == 'game_ended_with_winner') {
                 var win = event.data.winner_id;
                 if (win == props.user.id) {
-                    alert("Вы победили!");
-                    window.location.assign('/LK'); 
+                    setStatus('Вы победили!');
+                    setI(1);
+
                 } else {
-                    alert("Вы проиграли");
-                    window.location.assign('/LK')
+                    setStatus('Вы проиграли');
+                    setI(1);
                 }   
+                //window.location.assign('/LK');
             }
             if (event.event_type == 'game_ended_in_draw') {
-                alert("Ничья!");
-                window.location.assign('/LK'); 
+                setStatus('Ничья!');
+                setI(1);
             }
         });
         sub.on('subscribed', function (ctx) {
@@ -89,7 +89,16 @@ const GameDesk = (props) => {
             console.log(ctx); // в ctx будут лежат данные события
         });
     }
-
+ 
+    const GoToLK = () =>{
+        if (i == 1){
+            return(
+                <NavLink to='/LK'>
+                    Перейти в Личный кабинет
+                </NavLink>
+            )
+        }
+    }
     
     return (
         <>
@@ -118,20 +127,118 @@ const GameDesk = (props) => {
                         </central></div>
                     </div>
                     <div className={classes.title}>
-                        <center>Ход</center>
+                        <center>Ход
                         <div className={classes.playerturnbox} style={{ backgroundColor: turn }}>
-                        </div>
-                        <div>
-                            {status}
-                        </div>
+                        </div></center>
+                    </div>   
+                    <div className={classes.status}>
+                        {status}
                     </div>
+                    <div className={classes.knopka}>
+                        <GoToLK />
+                    </div>
+
                 </div>
-                <div >
+                <div className={classes.a}>
+                    <p className={classes.b}>
+                        15
+                    </p>
+                    <p className={classes.b}>
+                        14
+                    </p>
+                    <p className={classes.b}>
+                        13
+                    </p>
+                    <p className={classes.b}>
+                        12
+                    </p>
+                    <p className={classes.b}>
+                        11
+                    </p>
+                    <p className={classes.b}>
+                        10
+                    </p>
+                    <p className={classes.b}>
+                        9
+                    </p>
+                    <p className={classes.b}>
+                        8
+                    </p>
+                    <p className={classes.b}>
+                        7
+                    </p>
+                    <p className={classes.b}>
+                        6
+                    </p>
+                    <p className={classes.b}>
+                        5
+                    </p>
+                    <p className={classes.b}>
+                        4
+                    </p>
+                    <p className={classes.b}>
+                        3
+                    </p>
+                    <p className={classes.b}>
+                        2
+                    </p>
+                    <p className={classes.b}>
+                        1
+                    </p>
+                </div>
+                <div className={classes.desk}>
                     <Board
                         squares={props.squares}
                         onClick={(i) => handleClick(i)}
                     />
+                    <a className={classes.abc}>
+                       a  
+                    </a>
+                    <a className={classes.abc}>
+                        b 
+                    </a>
+                    <a className={classes.abc}>
+                        c
+                    </a>
+                    <a className={classes.abc}>
+                        d
+                    </a>
+                    <a className={classes.abc}>
+                        e
+                    </a>
+                    <a className={classes.abc}>
+                        f
+                    </a>
+                    <a className={classes.abc}>
+                        g
+                    </a>
+                    <a className={classes.abc}>
+                        h
+                    </a>
+                    <a className={classes.abc}>
+                        i
+                    </a>
+                    <a className={classes.abc}>
+                        j
+                    </a>
+                    <a className={classes.abc}>
+                        k
+                    </a>
+                    <a className={classes.abc}>
+                        l
+                    </a>
+                    <a className={classes.abc}>
+                        m
+                    </a>
+                    <a className={classes.abc}>
+                        n
+                    </a>
+                    <a className={classes.abc}>
+                        o
+                    </a>
+                    
                 </div>
+
             </div>
         </>
     )

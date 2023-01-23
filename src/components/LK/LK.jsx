@@ -72,7 +72,7 @@ const LK = (props) => {
                         window.location.assign('/gamedesk/');
                     }
                     if (event.event_type == 'decline_game_invitation') {
-                        sub2.unSubscribe();
+                        sub2.unsubscribe();
                         sub2.removeAllListeners();
                         setGame_id('');
                         setStatus('Игрок отказался');
@@ -94,8 +94,8 @@ const LK = (props) => {
     let NewGame2 = () => {
         props.centrifuge.rpc("decline_game_invitation", { "game_id": game_id })
             .then(function (ctx) {
-                setInviter = '';
-                setInvited_at = '';
+                setInviter('');
+                setInvited_at('');
             }, function (err) {
                 alert(err.message);
             });

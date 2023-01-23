@@ -6,38 +6,35 @@ import vk from './pictures/VK.png';
 import { NavLink } from "react-router-dom";
 import Header from "../Header/Header";
 
-
-async function loginUser(credentials) {
-    return fetch('/api/v1/sign_in', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(credentials)
-    })
-        .then((response) => {
-            if (response.ok) {
-                return response.json;
-            }
-            return Promise.reject(response);
-        })
-        .then((jsonResponse) => {
-            window.location.assign('/LK'); 
-        })
-        .catch((response) => {
-            response.json().then((jsonResponse) => {
-                alert(
-                    jsonResponse.error.code,
-                    jsonResponse.error.message
-                );
-            })
-        })
-}
-
 const Login = (props) => {
 
     const [login, setLogin] = useState();
     const [pass, setPass] = useState();
+    const [eror, setEror] = useState('');
+
+    async function loginUser(credentials) {
+        return fetch('https://renju24.com/api/v1/sign_in', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(credentials)
+        })
+            .then((response) => {
+                if (response.ok) {
+                    return response.json;
+                }
+                return Promise.reject(response);
+            })
+            .then((jsonResponse) => {
+                window.location.assign('/LK');
+            })
+            .catch((response) => {
+                response.json().then((jsonResponse) => {
+                    ErrorMesagge(jsonResponse.error.message);
+                })
+            })
+    }
 
     const handleSubmit = async e => {
         e.preventDefault();
@@ -47,6 +44,20 @@ const Login = (props) => {
 
         });
     }
+
+    const ErrorMesagge = (mesagge) => {
+        switch (mesagge) {
+            case 'internal server error':
+                setEror('Ошибка на стороне сервера');
+                break;
+            case 'invalid credentials':
+                setEror('Неправильный пароль');
+                break;
+            case 'user not found':
+                setEror('Пользователь с таким логином не найден');
+                break;
+        }
+    } 
 
     const Go = () => {
         return (
@@ -108,6 +119,9 @@ const Login = (props) => {
                                     <button type="submit" className={classes.button}>Войти</button>
                                 </center>
                             </div>
+                            <div className={classes.textT1}><center>
+                            {eror}
+                        </center></div> 
                         </form>
                         <div>
                             <Go />
