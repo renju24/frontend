@@ -14,8 +14,8 @@
   
   display: grid;
 
-  grid-template-rows: 150px 50px 120px 80px 80px 80px ;
-  grid-template-areas: "P1" "VS" "P2" "H" "S" "K" ;
+  grid-template-rows: 150px 50px 120px 80px 80px 80px 80px ;
+  grid-template-areas: "P1" "VS" "P2" "H" "S" "K" "LO" ;
 
   width: 310px;
   place-items: center;
@@ -81,6 +81,23 @@
   font-size: 16px;
 }
 
+.LO{
+  grid-area: LO;
+  width: 200px;
+  height: 30px;
+  margin: 1%;
+  margin-top: 70%;
+  background: rgba(61, 148, 47, 0.2);
+  border-radius: 20px;
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-size: 16px;
+  line-height: 29px;
+  color: #111217;
+  border: 0px;
+  text-align: center ;
+  
+}
 
 .desk{
   grid-area: B;

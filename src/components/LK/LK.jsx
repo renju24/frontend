@@ -32,6 +32,7 @@ const LK = (props) => {
     const [inviter, setInviter] = useState();
     const [invited_at, setInvited_at] = useState();
     const [status, setStatus] = useState();
+    const [opponent, setOpponent] = useState();
 
     let user2 = React.createRef();
 
@@ -53,8 +54,15 @@ const LK = (props) => {
                 //sub.removeAllListeners();
             }
         });
+        props.centrifuge.rpc("is_playing", { "username": props.user.username })
+        .then(function (res) {
+            setGame(res.data.game.game_id);
+            setOpponent(res.data.game.opponent);          
+        }, function (err) {
+            console.log('rpc error', err);
+        });
     }
-
+    
     let NewGame = () => {
         let username = user2.current.value;
         props.centrifuge.rpc("call_for_game", { "username": username })
@@ -83,9 +91,42 @@ const LK = (props) => {
             });
     }
 
+    const [show, setShow] = useState(false);
+
+    let LogOutOut = () =>{
+        window.location.assign('https://renju24.com/logout');
+    }
+
+    let LogOut = (props) => {
+        
+        if(!props.show) {
+            return null;
+        }
+
+        return (<>
+            <div className={classes.modal}>
+                <center>
+                <div className={classes.modalcontent}>
+                    <div className={classes.modalbody}>
+                        Вы уверены, что хотите выйти из аккаунта?
+                    </div>
+                        <div className={classes.modalfooter}>
+                            <button onClick={LogOutOut} className={classes.buttonY}>
+                                Да
+                            </button>
+                            <button onClick={props.onClose} className={classes.buttonY}>
+                                Нет
+                            </button>
+                        </div>
+                </div>
+                </center>
+            </div>
+        </>)
+    }
+
     let NewGame1 = () => {
         props.centrifuge.rpc("accept_game_invitation", { "game_id": game_id })
-            .then(function (ctx) {
+            .then(function (ctx) {;
                 window.location.assign('/gamedesk/');
             }, function (err) {
                 alert(err.message);
@@ -100,20 +141,42 @@ const LK = (props) => {
                 alert(err.message);
             });
     }
-
-    const Notice = () => {
+    let ContineGame1 = () =>{
+        window.location.assign('/gamedesk/');
+    }
+  
+    const Notice_Invite = () => {
         if (inviter) {
             return (
                 <>
                     <div>
                         Пользователь {inviter} приглашает Вас в игру!
                     </div>
-                    <button onClick={NewGame1} className={classes.button}>
+                    <center>
+                    <button onClick={NewGame1} className={classes.buttonY}>
                         Согласиться
                     </button>
-                    <button onClick={NewGame2} className={classes.button}>
+                    <button onClick={NewGame2} className={classes.buttonY}>
                         Отказаться
                     </button>
+                    </center>
+                </>
+            )
+        }
+    }
+
+    const Notice_Play = () => {
+        if (game) {
+            return (
+                <>
+                    <div>
+                        У Вас незакончена игра с пользователем {opponent}
+                    </div>
+                    <center>
+                    <button onClick={ContineGame1} className={classes.buttonY}>
+                        Продолжить
+                    </button>                      
+                    </center>
                 </>
             )
         }
@@ -251,26 +314,31 @@ const LK = (props) => {
                     <div>
                         Введите ник игрока:
                     </div>
-                    <div>
-                        <textarea ref={user2} className={classes.search}>
-                        </textarea>
-                    </div>
-                    <div>
+                        <input className={classes.search} type='text' ref={user2} />
                         <button onClick={NewGame} className={classes.button}>
                             Пригласить
-                        </button>
-                    </div>
+                        </button> 
                     <div>
                         {status}
                     </div>
                 </center>
             </div>
             <div className={classes.notice}>
-                <center> Уведомления </center>
+                <center> Уведомления 
                 <div className={classes.n}>
-                    <Notice inviter={inviter} invited_at={invited_at} />
+                    <Notice_Invite inviter={inviter} invited_at={invited_at} />
                 </div>
+                <div className={classes.n}>
+                    <Notice_Play />
+                </div>
+                </center>
             </div>
+            <center>
+                <button onClick={() => setShow(true)} className={classes.LO}>
+                        Выйти из аккаунта
+                </button>               
+                </center>
+                <LogOut onClose={() => setShow(false)} show={show}/> 
         </div>
     </>
     )

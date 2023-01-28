@@ -8,6 +8,7 @@ import BlackCircle from './pieces/BlackCircle';
 import WhiteCircle from './pieces/WhiteCircle';
 import Board from './components/board';
 import { NavLink } from 'react-router-dom';
+import initialiseChessBoard from './helpers/board-initialiser';
 
 function Subscribe(game){
     const sub = centrifuge.newSubscription('game_' + game);
@@ -33,7 +34,7 @@ const GameDesk = (props) => {
         if (player == 1) setPlayer(2);
         else setPlayer(1);
         if (turn == 'black') setTurn('white');
-        else setTurn('black')
+        else setTurn('black');
     }
 
     const handleClick = (i) => {
@@ -59,6 +60,7 @@ const GameDesk = (props) => {
             console.log('rpc error', err);
         });
 
+    const [once, setOnce] = useState(1);
     if (sub) {
         sub.on('publication', function (ctx) {
             var event = ctx.data;
@@ -81,14 +83,65 @@ const GameDesk = (props) => {
                 setStatus('Ничья!');
                 setI(1);
             }
+            if (event.event_type == 'user_left_game') {
+                var a = event.data.who_left_game;
+                var b = event.data.winner_id;
+                if (a == props.user.id){
+                    if(!b){
+                        setStatus('Вы покинули партию');
+                        setI(1);
+                    }else{
+                        setStatus('Вы проиграли');
+                        setI(1);
+                    }
+                }else{
+                    if(!b){
+                        setStatus('Соперник покинул партию');
+                        setI(1);
+                    }else{
+                        setStatus('Соперник покинул партию. Вы выиграли!');
+                        setI(1);
+                    }
+                }
+            }
         });
         sub.on('subscribed', function (ctx) {
-            console.log(ctx); // в ctx будут лежат данные события
+            //console.log(ctx); // в ctx будут лежат данные события
         });
         sub.on('error', function (ctx) {
             console.log(ctx); // в ctx будут лежат данные события
         });
+        var a = 1;
+
+        props.centrifuge.rpc("get_board_state", { "game_id": game })
+            .then(function (res) {
+                const mass = res.data.moves;
+                if (once) {
+                    var a = 1;
+                    mass.map(item => {
+                        var i = item.x_coordinate * 15 + item.y_coordinate;
+                        if (a == 1) {
+                            props.squares[i] = new BlackCircle(player);
+                        }
+                        else {
+                            props.squares[i] = new WhiteCircle(player);
+                        }
+                        if (a == 1) a = 2;
+                        else a = 1;
+                    })
+                    if (a == 2) {
+                         setTurn('white');
+                         setPlayer(2);
+                    }
+                    setOnce(0);
+                }
+            }, function (err) {
+                console.log('rpc error', err);
+            });
+            
     }
+
+    
  
     const GoToLK = () =>{
         if (i == 1){
@@ -96,6 +149,25 @@ const GameDesk = (props) => {
                 <NavLink to='/LK'>
                     Перейти в Личный кабинет
                 </NavLink>
+            )
+        }
+    }
+
+    let GiveUp = () =>{
+        props.centrifuge.rpc("leave_game", { "game_id": game})
+        .then(function (res) {
+
+        }, function (err) {
+            console.log('rpc error', err);
+        });
+    }
+
+    const Button_GiveUp = () =>{
+        if(!i){
+            return(
+                <button onClick={GiveUp} className={classes.LO}>
+                Сдаться
+                </button> 
             )
         }
     }
@@ -136,6 +208,9 @@ const GameDesk = (props) => {
                     </div>
                     <div className={classes.knopka}>
                         <GoToLK />
+                    </div>
+                    <div>
+                    <Button_GiveUp/>
                     </div>
 
                 </div>
