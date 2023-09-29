@@ -28,12 +28,17 @@ centrifuge.on('connected', function (ctx) {
     user.ranking = ctx.data.ranking;
     id = ctx.data.id;
     sub.s = centrifuge.newSubscription('user_' + ctx.data.id);
-
+    if (window.location.pathname == '/') {
+        window.location = '/LK';
+    }
 });
 
 
 centrifuge.on('disconnected', function (ctx) {
     console.log('connected FALSE');
+    if ((window.location.pathname == '/LK') || (window.location.pathname == '/LK/')) {
+        window.location = '/';
+    }
 });
 
 export { centrifuge, user, sub };
